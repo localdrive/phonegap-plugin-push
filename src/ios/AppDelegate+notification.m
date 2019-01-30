@@ -130,6 +130,12 @@ NSString *const pushPluginApplicationDidBecomeActiveNotification = @"pushPluginA
         }
 
     } else {
+        // add this to call on('notification') even if app is opened
+        PushPlugin *pushHandler = [self getCommandInstance:@"PushNotification"];
+        pushHandler.notificationMessage = userInfo;
+        pushHandler.isInline = NO;
+        [pushHandler notificationReceived];
+      
         completionHandler(UIBackgroundFetchResultNoData);
     }
 }
