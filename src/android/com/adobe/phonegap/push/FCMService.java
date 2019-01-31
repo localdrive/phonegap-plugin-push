@@ -393,7 +393,16 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
         PendingIntent.FLAG_CANCEL_CURRENT);
 
     NotificationCompat.Builder mBuilder = null;
+    
+    // remove sound when notification is in foreground
+    boolean foreground = extras.getBoolean(FOREGROUND, false);
 
+    if (foreground) {
+      extras.putString(SOUND, "no_sound");
+      extras.putString(SOUNDNAME, "no_sound");
+      extras.putString(ANDROID_CHANNEL_ID, "no_sound");
+    }
+    
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       String channelID = extras.getString(ANDROID_CHANNEL_ID);
 
